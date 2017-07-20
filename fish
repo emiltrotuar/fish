@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 # require 'pry'
 
-WORK_BRANCH_FILE = '/Users/dimas/bin/fish/work_branch' # path_to_work_branch_file
+WORK_BRANCH_FILE = '/Users/dursul/github/fish/work_branch' # path_to_work_branch_file
 
 unless File.exists? WORK_BRANCH_FILE
   puts 'Please create a branch file'
@@ -39,7 +39,8 @@ if arg
       `git stash pop`
     when 'new' # fish new int-999 "New \"feature\" branch" -> INT-999_New__feature__branch
       puts 'creating new feature branch'
-      ticket_name = ARGV[1] && ARGV[1].strip.gsub(/(?:[^\w\/]|_)+/,'_')
+      ticket_name = ARGV[1] && ARGV[1].strip.gsub(/(?:[^\w\/]|_)+/,'-')
+      ticket_name.upcase!
       `git stash`
       unless current_branch == master_branch
         `git co #{master_branch}`
