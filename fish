@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 # require 'pry'
 
-WORK_BRANCH_FILE = '/Users/dursul/github/fish/work_branch' # path_to_work_branch_file
+WORK_BRANCH_FILE = File.dirname(__FILE__) + '/work_branch' # path_to_work_branch_file
 
 unless File.exists? WORK_BRANCH_FILE
   puts 'Please create a branch file'
