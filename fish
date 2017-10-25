@@ -37,7 +37,6 @@ if arg
       `git stash`
       `git checkout #{work_branch}`
       `git stash pop`
-      `git stash clear`
     when 'new' # fish new int-999 "New \"feature\" branch" -> INT-999_New__feature__branch
       puts 'creating new feature branch'
       ticket_name = ARGV[1] && ARGV[1].strip.gsub(/(?:[^\w\/]|_)+/,'-')
@@ -72,7 +71,6 @@ if arg
       f.write current_branch
       f.close
       `git stash pop`
-      `git stash clear`
   end
 else
   puts 'Please provide some argument'
