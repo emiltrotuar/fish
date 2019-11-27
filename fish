@@ -59,12 +59,11 @@ if arg
         exit
       end
       `git stash`
-      if `git branch | grep #{arg}`.strip.length != 0
+      if `git branch --list #{arg}`.size != 0
         `git checkout #{arg}`
         `git pull origin #{arg}`
       else
-        `git co #{master_branch}`
-        `git pull`
+        `git fetch origin`
         `git checkout #{arg}`
       end
       f = File.new(WORK_BRANCH_FILE,'w+')
