@@ -34,6 +34,7 @@ if arg
       end
       `git stash`
       `git checkout #{work_branch}`
+      `git stash pop`
     when 'new' # fish new int-999 "New \"feature\" branch" -> INT-999_New__feature__branch
       puts 'creating new feature branch'
       ticket_name = ARGV[1] && ARGV[1].strip.gsub(/(?:[^\w\/]|_)+/,'-')
