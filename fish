@@ -19,12 +19,10 @@ if arg
       puts 'pulling'
       `git stash`
       `git pull origin #{current_branch}`
-      `git stash pop`
     when 'rebase'
       puts 'rebasing'
       `git stash`
       `git pull --rebase origin #{master_branch}`
-      `git stash pop`
     when 'back' # back to work on your branch
       puts 'back home'
       f = File.new(WORK_BRANCH_FILE)
@@ -36,7 +34,6 @@ if arg
       end
       `git stash`
       `git checkout #{work_branch}`
-      `git stash pop`
     when 'new' # fish new int-999 "New \"feature\" branch" -> INT-999_New__feature__branch
       puts 'creating new feature branch'
       ticket_name = ARGV[1] && ARGV[1].strip.gsub(/(?:[^\w\/]|_)+/,'-')
@@ -51,7 +48,6 @@ if arg
       f = File.new(WORK_BRANCH_FILE,'w+')
       f.write branch_name
       f.close
-      `git stash pop`
     else # fish "fishing_branch_name"
       puts 'checkout'
       if current_branch == arg
@@ -69,7 +65,6 @@ if arg
       f = File.new(WORK_BRANCH_FILE,'w+')
       f.write current_branch
       f.close
-      `git stash pop`
   end
 else
   puts 'Please provide some argument'
