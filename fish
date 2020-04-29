@@ -8,21 +8,24 @@ unless File.exists? WORK_BRANCH_FILE
   exit
 end
 
-master_branch = `git symbolic-ref refs/remotes/origin/HEAD`.strip.split('/')[-1] # please do "git remote set-head origin develop" once being on onelogin-provisioning repo
+master_branch = `git symbolic-ref refs/remotes/origin/HEAD`.strip.split('/')[-1]
 current_branch = `git rev-parse --abbrev-ref HEAD`.strip
 
-arg = ARGV.first
+command        = ARGV[0]
+base_branch    = ARGV[1]
 
-if arg
-  case arg
+if command
+  case command
     when 'pull'
       puts 'pulling'
       `git stash`
       `git pull origin #{current_branch}`
     when 'rebase'
-      puts 'rebasing'
+      base_branch ||= master_branch
+      puts "rebasing on #{base_branch} branch"
       `git stash`
-      `git pull --rebase origin #{master_branch}`
+      `git pull --rebase origin #{base_branch}`
+      `git stash pop`
     when 'back' # back to work on your branch
       puts 'back home'
       f = File.new(WORK_BRANCH_FILE)
@@ -51,17 +54,17 @@ if arg
       f.close
     else # fish "fishing_branch_name"
       puts 'checkout'
-      if current_branch == arg
+      if current_branch == command
         puts "You're already on fish branch!"
         exit
       end
       `git stash`
-      if `git branch --list #{arg}`.size != 0
-        `git checkout #{arg}`
-        `git pull origin #{arg}`
+      if `git branch --list #{command}`.size != 0
+        `git checkout #{command}`
+        `git pull origin #{command}`
       else
         `git fetch origin`
-        `git checkout #{arg}`
+        `git checkout #{command}`
       end
       f = File.new(WORK_BRANCH_FILE,'w+')
       f.write current_branch
