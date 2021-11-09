@@ -8,7 +8,7 @@ unless File.exists? WORK_BRANCH_FILE
   exit
 end
 
-master_branch = `git symbolic-ref refs/remotes/origin/HEAD`.strip.split('/')[-1]
+development_branch = `git symbolic-ref refs/remotes/origin/HEAD`.strip.split('/')[-1]
 current_branch = `git rev-parse --abbrev-ref HEAD`.strip
 
 command        = ARGV[0]
@@ -21,7 +21,7 @@ if command
       `git stash`
       `git pull origin #{current_branch}`
     when 'rebase'
-      base_branch ||= master_branch
+      base_branch ||= development_branch
       puts "rebasing on #{base_branch} branch"
       `git stash`
       `git pull --rebase origin #{base_branch}`
@@ -40,14 +40,12 @@ if command
       `git stash pop`
     when 'new' # fish new int-999 "New \"feature\" branch" -> INT-999_New__feature__branch
       puts 'creating new feature branch'
-      ticket_name = ARGV[1] && ARGV[1].strip.gsub(/(?:[^\w\/]|_)+/,'-')
-      ticket_name.upcase!
       `git stash`
-      unless current_branch == master_branch
-        `git co #{master_branch}`
+      unless current_branch == development_branch
+        `git co #{development_branch}`
       end
       `git pull`
-      branch_name = ticket_name || 'new_feature'
+      branch_name = ARGV[1] || 'new_feature'
       `git checkout -b #{branch_name}`
       f = File.new(WORK_BRANCH_FILE,'w+')
       f.write branch_name
