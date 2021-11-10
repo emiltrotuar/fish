@@ -44,7 +44,7 @@ if command
       unless current_branch == development_branch
         `git co #{development_branch}`
       end
-      `git pull`
+      `git pull origin #{development_branch}`
       branch_name = ARGV[1] || 'new_feature'
       `git checkout -b #{branch_name}`
       f = File.new(WORK_BRANCH_FILE,'w+')
