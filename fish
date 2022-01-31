@@ -42,7 +42,7 @@ if command
       puts 'creating new feature branch'
       `git stash`
       unless current_branch == development_branch
-        `git co #{development_branch}`
+        `git checkout #{development_branch}`
       end
       `git pull origin #{development_branch}`
       branch_name = ARGV[1] || 'new_feature'
