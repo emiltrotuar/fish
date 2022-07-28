@@ -8,7 +8,7 @@ unless File.exists? WORK_BRANCH_FILE
   exit
 end
 
-development_branch = `git symbolic-ref refs/remotes/origin/HEAD`.strip.split('/')[-1]
+development_branch = ENV['MAIN_BRANCH'] || `git symbolic-ref refs/remotes/origin/HEAD`.strip.split('/')[-1]
 current_branch = `git rev-parse --abbrev-ref HEAD`.strip
 
 command        = ARGV[0]
