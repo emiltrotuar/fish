@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 # require 'pry'
 
-WORK_BRANCH_FILE = File.dirname(__FILE__) + '/work_branch' # path_to_work_branch_file
+WORK_BRANCH_FILE = File.join(Dir.home, "github", "fish", "work_branch")
 
 unless File.exists? WORK_BRANCH_FILE
   puts 'Please create a branch file'
